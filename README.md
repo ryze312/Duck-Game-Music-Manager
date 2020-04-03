@@ -9,7 +9,7 @@ Simple Manager of Sound Packs for Duck Game
 
 ## How to Create Packs
 1. Create file structure like this
-![Structure](/DGMM/Structure.png?raw=true "File Structure")
+![Structure](DGMM/Structure.png?raw=true "File Structure")
 
 2. Place files inside:
    * **SFX** to change sound effects (.xnb)
