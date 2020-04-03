@@ -8,7 +8,8 @@ Simple Manager of Sound Packs for Duck Game
 * Install it via manager
 
 ## How to Create Packs
-1. Create file structure like this
+1. Create file structure like this <br />
+
 ![Structure](DGMM/Structure.PNG?raw=true "File Structure")
 
 2. Place files inside:
