@@ -9,15 +9,12 @@ Simple Manager of Sound Packs for Duck Game
 
 ## How to Create Packs
 1. Create file structure like this
-- __Name of the pack__
-  - _Audio_
-    - _SFX_
-    - _Music_
-      - _InGame_
-2. Place ogg files inside:
-   * **SFX** to change sound effects
-   * **Music** to change misc music
-   * **InGame** to change music played in multiplayer
+![Structure](/DGMM/Structure.png?raw=true "File Structure")
+
+2. Place files inside:
+   * **SFX** to change sound effects (.xnb)
+   * **Music** to change misc music (.ogg)
+   * **InGame** to change music played in multiplayer (.ogg)
 
 ## Misc music
 | File | When plays |
