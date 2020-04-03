@@ -24,18 +24,18 @@ Simple Manager of Sound Packs for Duck Game
 |Challenging|While challenge|
 |ChallengeLose|After challenge lose|
 |ChallengeWin|After challenge win|
-|Character Select|In lobby|
+|CharacterSelect|In lobby|
 |Intermission  | While Intermission|
 |Intermission2 | While Intermission|
 |jazzroom|While finding lobbys|
 |jollyjingle|???|
 |littlesad|???|
-|March of Duck|???|
+|MarchOfDuck|???|
 |Pause|Possibly while game paused|
 |RaceDay|In Library|
 |spacemystery|???|
-|Sports Cap|???|
-|Sports Time|???|
+|SportsCap|???|
+|SportsTime|???|
 |tabledoodles|???|
 |Title|In Main Menu|
 |TitleDemo|???|
