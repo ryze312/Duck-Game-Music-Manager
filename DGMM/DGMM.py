@@ -3,7 +3,6 @@
 import os
 import shutil
 import shelve
-import pdb
 
 # Entry variable for menu
 entry = ""
@@ -96,10 +95,7 @@ def displayPacks():
             entry = int(input('| Choose entry: '))
         # If input is empty continue
         except ValueError:
-            continue
-        
-        
-    
+            continue   
     os.system('cls')
     
     installPack(packs[entry-1])
@@ -184,7 +180,7 @@ while 1:
 
     else:
         print('\n|      Duck Game Music Manager       |')
-        print('| Version: 0.001 Alpha               |')
+        print('| Version: 0.5 Alpha               |')
         print('| Created by Ryze 2020               |')
         os.system('pause')  
     os.system("cls")
