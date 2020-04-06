@@ -3,34 +3,33 @@
 import os
 import shutil
 import shelve
+from sys import exit
 
 # Entry variable for menu
 entry = ""
 # List of packs
 packs = []
 # Path to Duck Game
-db = shelve.open('DGMM.db')
+db = shelve.open('DGMM')
 
 def firstRun():
     print("|         Welcome to Duck Game Music Manager          |")
     print('| Error occured while trying to read database         |')
     print('| Looks like it is your first time opening the manager|')
-    print('| Or you deleted DGMM.db                              |')
+    print('| Or you deleted DGMM.dir                             |')
     db['DGPath'] = input('Enter path to Duck Game: ')
-    db['FirstRun'] = True
+    
     os.system('cls')
 
 
 try:
-    firstRun = db['FirstRun']
     DGPath = db['DGPath']
 except KeyError:
     firstRun()
-    firstRun = db['FirstRun']
     DGPath = db['DGPath']
 finally:
     DGPath = os.path.join(DGPath, 'Content\\Audio')
-    
+
 
 # Custom copytree function with handling directory existence at destination
 def copytree(src, dst):
@@ -61,29 +60,56 @@ def copytree(src, dst):
 
 # Function for installing pack
 # Argument pack must be a string with name of pack
-def installPack(pack):
+def enablePack(pack, keepOriginalMusic):
     print('| Installing', pack, '|')
-    os.chdir("Music Packs\\")
-    #pdb.set_trace()
     
-    # If installing custom pack install DG original firstly
-    if pack != 'DG Original':
-        copytree('DG Original\\Audio', DGPath)
+    #Go to Audio section of pack
+    print(os.getcwd())
+    os.chdir("Music Packs\\" + pack + '\\Audio')
+
+    # Unlink all previous packs
+    for path, _, files in os.walk(DGPath):
+        for file in files:
+            os.unlink(path + '\\' + file)
     
-    # Then install custom pack
-    copytree(pack + '\\Audio', DGPath)
-    
-    # Go to root path
-    os.chdir('../')
-    
-    
+    # Link pack files  
+    for path, _, files in os.walk('.\\'):
+        for file in files:
             
+            link = DGPath + path[1:] + '\\' + file
+            src = os.path.abspath(path + '\\' + file)
+            
+            os.symlink(src,link)
+
+    # Go to Audio section of original pack
+    os.chdir('..\\..\\DG Original\\Audio') 
+    
+    # Link Original files
+    for path, _, files in os.walk('.\\'):
+        # Continue if user doesn't wants to keep original music
+        if path == '.\\Music\\InGame' and not keepOriginalMusic:
+            continue
+
+        for file in files:
+            link = DGPath + path[1:] + '\\' + file
+            src = os.path.abspath(path + '\\' + file)
+            
+            # If link exists. It means that file already overrided by pack
+            # So continue
+            if os.path.isfile(link):
+                continue  
+            
+            os.symlink(src,link)
+            
+    # Go to Root path
+    os.chdir('../../../')
 
 
 def displayPacks():
     # Local entry
     # entry == -1 to enter loop
     entry = -1
+    keepOriginalMusic = False
     
     # Show packs
     for i, pack in enumerate(packs):
@@ -95,13 +121,26 @@ def displayPacks():
             entry = int(input('| Choose entry: '))
         # If input is empty continue
         except ValueError:
-            continue   
+            continue
+
+    keepOriginal = input('Keep original music (Y/N)')
+    
+    while keepOriginal != 'Y' and keepOriginal != 'N':
+        keepOriginal = input('Keep original music (Y/N)')
+    
+    if keepOriginal == 'Y':
+        keepOriginalMusic == True
+    
     os.system('cls')
     
-    installPack(packs[entry-1])
+    enablePack(packs[entry-1], keepOriginalMusic)
+
 
 # Function for scanning packs
 def scan():
+    if not os.path.isdir('Music Packs'):
+        os.mkdir('Music Packs')
+
     os.chdir('Music Packs')
     dir = os.listdir('./')
     
@@ -116,6 +155,7 @@ def scan():
             packs.append(pack)
             print("| Found", pack, '|')
     os.chdir('../')
+
 
 # Function for printing manager
 def manager():
@@ -138,6 +178,7 @@ def manager():
         os.system('pause')
         os.system('cls')
 
+
 def menu():
     global entry
     entry = ""
@@ -154,8 +195,6 @@ def menu():
         exit()
 
 
-
-
 print('| Scanning.. |')
 scan()
 
@@ -163,13 +202,24 @@ scan()
 try:
     packs.index('DG Original')
 except ValueError:
-    print('Not found original pack')
+    print('NTF original pack')
     print('Copying original sounds..')
     os.mkdir('Music Packs\\DG Original')
     copytree(DGPath, 'Music Packs\\DG Original\\Audio')
+    packs.append('DG Original')
+    # Delete original Audio Tree
+    shutil.rmtree(DGPath)
     
-    
-    
+    # Recreate it without files
+    os.mkdir(DGPath)
+    os.mkdir(DGPath+'\\Music')
+    os.mkdir(DGPath+'\\Music\\InGame')
+    os.mkdir(DGPath+'\\SFX')
+    os.mkdir(DGPath+'\\SFX\\Voice')
+    os.mkdir(DGPath+'\\SFX\\Voice\\Mallard')
+    os.mkdir(DGPath+'\\SFX\\Voice\\Mallard2')
+    os.mkdir(DGPath+'\\SFX\\Voice\\Vincent')
+
         
 while 1:
     menu()
@@ -180,9 +230,7 @@ while 1:
 
     else:
         print('\n|      Duck Game Music Manager       |')
-        print('| Version: 0.5 Alpha               |')
+        print('| Version: 0.6 Alpha               |')
         print('| Created by Ryze 2020               |')
         os.system('pause')  
     os.system("cls")
-    
-
