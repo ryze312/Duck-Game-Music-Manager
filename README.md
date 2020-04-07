@@ -30,7 +30,7 @@ Simple Manager of Sound Packs for Duck Game
 |jazzroom|While finding lobbys|
 |jollyjingle|???|
 |littlesad|???|
-|MarchOfDuck|???|
+|MarchOfDuck|After Duck Burial|
 |Pause|Possibly while game paused|
 |RaceDay|In Library|
 |spacemystery|???|
