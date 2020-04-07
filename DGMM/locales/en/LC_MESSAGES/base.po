@@ -1,0 +1,119 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2020-04-08 00:21+0300\n"
+"PO-Revision-Date: 2020-04-08 00:22+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Generator: Poedit 2.3\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: DGMM.py\n"
+
+#: DGMM.py:38
+msgid "|         Welcome to Duck Game Music Manager          |"
+msgstr "|         Welcome to Duck Game Music Manager          |"
+
+#: DGMM.py:39
+msgid "| Error occured while trying to read database         |"
+msgstr "| Error occured while trying to read database         |"
+
+#: DGMM.py:40
+msgid "| Looks like it is your first time opening the manager|"
+msgstr "| Looks like it is your first time opening the manager|"
+
+#: DGMM.py:41
+msgid "| Or you deleted DGMM.dir                             |"
+msgstr "| Or you deleted DGMM.dir                             |"
+
+#: DGMM.py:42
+msgid "| Enter path to Duck Game: "
+msgstr "| Enter path to Duck Game: "
+
+#: DGMM.py:153 DGMM.py:202 DGMM.py:224
+msgid "| Choose entry: "
+msgstr "| Choose entry: "
+
+#: DGMM.py:158 DGMM.py:161
+msgid "| Keep original music (Y/N): "
+msgstr "| Keep original music (Y/N): "
+
+#: DGMM.py:188
+msgid "| Found "
+msgstr "| Found "
+
+#: DGMM.py:196
+msgid "|               Manager               |"
+msgstr "|               Manager               |"
+
+#: DGMM.py:197
+msgid "| 1. Packs                            |"
+msgstr "| 1. Packs                            |"
+
+#: DGMM.py:198
+msgid "| 2. Rescan                           |"
+msgstr "| 2. Rescan                           |"
+
+#: DGMM.py:199
+msgid "| 3. Exit to menu                     |"
+msgstr "| 3. Exit to menu                     |"
+
+#: DGMM.py:218
+msgid ""
+"\n"
+"| Welcome to Duck Game Music Manager |"
+msgstr ""
+"\n"
+"| Welcome to Duck Game Music Manager |"
+
+#: DGMM.py:219
+msgid "| 1. Manage                          |"
+msgstr "| 1. Manage                          |"
+
+#: DGMM.py:220
+msgid "| 2. About                           |"
+msgstr "| 2. About                           |"
+
+#: DGMM.py:221
+msgid "| 3. Exit                            |"
+msgstr "| 3. Exit                            |"
+
+#: DGMM.py:231
+msgid "| Scanning..."
+msgstr ""
+
+#: DGMM.py:238
+msgid "| NTF original pack          |"
+msgstr "| NTF original pack          |"
+
+#: DGMM.py:239
+msgid "| Copying original sounds... |"
+msgstr "| Copying original sounds... |"
+
+#: DGMM.py:265
+msgid ""
+"\n"
+"|      Duck Game Music Manager       |"
+msgstr ""
+"\n"
+"|      Duck Game Music Manager       |"
+
+#: DGMM.py:266
+msgid "| Version: 0.6 Alpha                 |"
+msgstr "| Version: 0.6 Alpha                 |"
+
+#: DGMM.py:267
+msgid "| Created by Ryze 2020               |"
+msgstr "| Created by Ryze 2020               |"
+
+#~ msgid "| Scanning...                  |"
+#~ msgstr "| Scanning..."

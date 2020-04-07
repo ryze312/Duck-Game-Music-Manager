@@ -3,32 +3,64 @@
 import os
 import shutil
 import shelve
+import gettext
 from sys import exit
 
 # Entry variable for menu
 entry = ""
+lang = ""
+langs = ['en','ru_RU']
+_ = None
 # List of packs
 packs = []
 # Path to Duck Game
 db = shelve.open('DGMM')
+DGPath = ''
 
 def firstRun():
-    print("|         Welcome to Duck Game Music Manager          |")
-    print('| Error occured while trying to read database         |')
-    print('| Looks like it is your first time opening the manager|')
-    print('| Or you deleted DGMM.dir                             |')
-    db['DGPath'] = input('Enter path to Duck Game: ')
+    entry = -1
+    global _
+
+    print('|         Welcome to Duck Game Music Manager          |')
+    print('| 1. English                                          |')
+    print('| 2. Русский                                          |')
+    
+    while (entry < 1 or entry > 2):
+        entry = int(input('| Language/Язык: '))
+    
+    db['Lang'] = langs[entry-1]
+    
+    text = gettext.translation('base', 'locales', languages=[langs[entry-1]])
+    text.install()
+    _ = text.gettext
+    os.system('cls')
+
+    print(_("|         Welcome to Duck Game Music Manager          |"))
+    print(_('| Error occured while trying to read database         |'))
+    print(_('| Looks like it is your first time opening the manager|'))
+    print(_('| Or you deleted DGMM.dir                             |'))
+    db['DGPath'] = input(_('| Enter path to Duck Game: '))
     
     os.system('cls')
 
 
 try:
     DGPath = db['DGPath']
+    lang = db['Lang']
+    
+    text = gettext.translation('base', 'locales', languages=[lang])
+    text.install()
+    _ = text.gettext
+
 except KeyError:
     firstRun()
     DGPath = db['DGPath']
+    lang = db['Lang']
 finally:
     DGPath = os.path.join(DGPath, 'Content\\Audio')
+
+
+
 
 
 # Custom copytree function with handling directory existence at destination
@@ -86,7 +118,7 @@ def enablePack(pack, keepOriginalMusic):
     
     # Link Original files
     for path, _, files in os.walk('.\\'):
-        # Continue if user doesn't wants to keep original music
+        # Continue if user doesn't want to keep original music
         if path == '.\\Music\\InGame' and not keepOriginalMusic:
             continue
 
@@ -118,15 +150,22 @@ def displayPacks():
     # Checking if input is in range of packs
     while (entry < 0 or entry > len(packs)):
         try:
-            entry = int(input('| Choose entry: '))
+            entry = int(input(_('| Choose entry: ')))
         # If input is empty continue
         except ValueError:
             continue
 
-    keepOriginal = input('Keep original music (Y/N)')
+    keepOriginal = input(_('| Keep original music (Y/N): '))
     
-    while keepOriginal != 'Y' and keepOriginal != 'N':
-        keepOriginal = input('Keep original music (Y/N)')
+    if lang == 'ru_RU':
+        yes = 'Д'
+        no = 'Н'
+    else:
+        yes = 'Y'
+        no = 'N'
+    
+    while keepOriginal.upper() != yes and keepOriginal.upper() != no:
+        keepOriginal = input(_('| Keep original music (Y/N): '))
     
     if keepOriginal == 'Y':
         keepOriginalMusic == True
@@ -153,7 +192,7 @@ def scan():
         # If new pack found
         except ValueError:
             packs.append(pack)
-            print("| Found", pack, '|')
+            print(_("| Found "), pack)
     os.chdir('../')
 
 
@@ -161,13 +200,13 @@ def scan():
 def manager():
     while 1:
         entry = ""
-        print("|               Manager               |")
-        print("| 1. Packs                            |")
-        print('| 2. Rescan                           |')
-        print('| 3. Exit to menu                     |')
+        print(_("|               Manager               |"))
+        print(_("| 1. Packs                            |"))
+        print(_('| 2. Rescan                           |'))
+        print(_('| 3. Exit to menu                     |'))
         
         while (entry != '1' and entry != '2' and entry != '3'):
-            entry = input('| Choose entry: ')
+            entry = input(_('| Choose entry: '))
         
         if (entry == '1'):
             displayPacks()
@@ -183,30 +222,34 @@ def menu():
     global entry
     entry = ""
     
-    print("\n| Welcome to Duck Game Music Manager |")
-    print("| 1. Manage                          |")
-    print("| 2. About                           |")
-    print("| 3. Exit                            |")
+    print(_("\n| Welcome to Duck Game Music Manager |"))
+    print(_("| 1. Manage                          |"))
+    print(_("| 2. About                           |"))
+    print(_("| 3. Exit                            |"))
     
     while (entry != '1' and entry != '2' and entry != '3'):
-        entry = input('| Choose entry: ')
+        entry = input(_('| Choose entry: '))
     
     if (entry == '3'):
+        db.close()
         exit()
 
 
-print('| Scanning.. |')
+print(_('| Scanning...'))
 scan()
 
 # Check if original pack exist
 try:
     packs.index('DG Original')
 except ValueError:
-    print('NTF original pack')
-    print('Copying original sounds..')
+    print(_('| NTF original pack'))
+    print(_('| Copying original sounds...'))
+    
     os.mkdir('Music Packs\\DG Original')
     copytree(DGPath, 'Music Packs\\DG Original\\Audio')
+    
     packs.append('DG Original')
+    
     # Delete original Audio Tree
     shutil.rmtree(DGPath)
     
@@ -229,8 +272,8 @@ while 1:
         manager()
 
     else:
-        print('\n|      Duck Game Music Manager       |')
-        print('| Version: 0.6 Alpha               |')
-        print('| Created by Ryze 2020               |')
+        print(_('\n|      Duck Game Music Manager       |'))
+        print(_('| Version: 0.6 Alpha                 |'))
+        print(_('| Created by Ryze 2020               |'))
         os.system('pause')  
     os.system("cls")

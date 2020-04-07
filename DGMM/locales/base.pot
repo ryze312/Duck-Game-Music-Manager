@@ -1,0 +1,99 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-04-07 21:04+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=cp1251\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+
+
+#: DGMM.py:17
+msgid "|         Welcome to Duck Game Music Manager          |"
+msgstr ""
+
+#: DGMM.py:18
+msgid "| Error occured while trying to read database         |"
+msgstr ""
+
+#: DGMM.py:19
+msgid "| Looks like it is your first time opening the manager|"
+msgstr ""
+
+#: DGMM.py:20
+msgid "| Or you deleted DGMM.dir                             |"
+msgstr ""
+
+#: DGMM.py:21
+msgid "| Enter path to Duck Game: "
+msgstr ""
+
+#: DGMM.py:122 DGMM.py:171 DGMM.py:193
+msgid "| Choose entry: "
+msgstr ""
+
+#: DGMM.py:127 DGMM.py:130
+msgid "| Keep original music (Y/N)"
+msgstr ""
+
+#: DGMM.py:157
+msgid "| Found"
+msgstr ""
+
+#: DGMM.py:165
+msgid "|               Manager               |"
+msgstr ""
+
+#: DGMM.py:166
+msgid "| 1. Packs                            |"
+msgstr ""
+
+#: DGMM.py:167
+msgid "| 2. Rescan                           |"
+msgstr ""
+
+#: DGMM.py:168
+msgid "| 3. Exit to menu                     |"
+msgstr ""
+
+#: DGMM.py:187
+msgid ""
+"\n"
+"| Welcome to Duck Game Music Manager |"
+msgstr ""
+
+#: DGMM.py:188
+msgid "| 1. Manage                          |"
+msgstr ""
+
+#: DGMM.py:189
+msgid "| 2. About                           |"
+msgstr ""
+
+#: DGMM.py:190
+msgid "| 3. Exit                            |"
+msgstr ""
+
+#: DGMM.py:206
+msgid "NTF original pack"
+msgstr ""
+
+#: DGMM.py:207
+msgid "Copying original sounds.."
+msgstr ""
+
+#: DGMM.py:234
+msgid "| Version: 0.6 Alpha               |"
+msgstr ""
+
+#: DGMM.py:235
+msgid "| Created by Ryze 2020               |"
+msgstr ""
+
