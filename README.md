@@ -31,11 +31,11 @@ Simple Manager of Sound Packs for Duck Game
 |jollyjingle|???|
 |littlesad|???|
 |MarchOfDuck|After Duck Burial|
-|Pause|Possibly while game paused|
+|Pause|*Possibly* while game paused|
 |RaceDay|In Library|
 |spacemystery|???|
 |SportsCap|???|
 |SportsTime|???|
 |tabledoodles|???|
 |Title|In Main Menu|
-|TitleDemo|???|
+|TitleDemo|Possibly if game is in *Demo* state and *Demo* have expired|
