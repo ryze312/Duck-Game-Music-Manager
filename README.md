@@ -14,6 +14,7 @@ Simple Manager of Sound Packs for Duck Game
 1. Create file structure like this <br />
 
 ![Structure](Images/Structure.svg?raw=true "File Structure")
+<img src="/Images/Structure.svg">
 
 2. Place files inside:
    * **SFX** to change sound effects (.xnb)
