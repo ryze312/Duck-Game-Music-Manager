@@ -8,14 +8,21 @@ from sys import exit
 
 # Entry variable for menu
 entry = ""
+
+# Current lang
 lang = ""
+# Available langs
 langs = ['en','ru_RU']
+# Variable for GetText
 _ = None
 # List of packs
-packs = []
+packs = {}
+filesState = {}
 # Path to Duck Game
-db = shelve.open('DGMM')
 DGPath = ''
+# Database file
+db = shelve.open('DGMM')
+
 
 def firstRun():
     entry = -1
@@ -24,15 +31,19 @@ def firstRun():
     print('|         Welcome to Duck Game Music Manager          |')
     print('| 1. English                                          |')
     print('| 2. Русский                                          |')
-    
     while (entry < 1 or entry > 2):
-        entry = int(input('| Language/Язык: '))
+        try:
+            entry = int(input('| Language/Язык: '))
+        except ValueError:
+            continue
     
     db['Lang'] = langs[entry-1]
     
+    # Install Translation
     text = gettext.translation('base', 'locales', languages=[langs[entry-1]])
     text.install()
     _ = text.gettext
+    
     os.system('cls')
 
     print(_("|         Welcome to Duck Game Music Manager          |"))
@@ -48,6 +59,7 @@ try:
     DGPath = db['DGPath']
     lang = db['Lang']
     
+    # Install Translation
     text = gettext.translation('base', 'locales', languages=[lang])
     text.install()
     _ = text.gettext
@@ -56,11 +68,9 @@ except KeyError:
     firstRun()
     DGPath = db['DGPath']
     lang = db['Lang']
+    
 finally:
     DGPath = os.path.join(DGPath, 'Content\\Audio')
-
-
-
 
 
 # Custom copytree function with handling directory existence at destination
@@ -79,7 +89,6 @@ def copytree(src, dst):
         # Foo/bar + eggs.txt
         # Foo/bar/eggs.txt
         src_item = os.path.join(src,item)
-        
         # Choosing item destination
         dst_item = os.path.join(dst, item)
         
@@ -92,49 +101,78 @@ def copytree(src, dst):
 
 # Function for installing pack
 # Argument pack must be a string with name of pack
-def enablePack(pack, keepOriginalMusic):
-    print('| Installing', pack, '|')
-    
-    #Go to Audio section of pack
-    print(os.getcwd())
-    os.chdir("Music Packs\\" + pack + '\\Audio')
-
+def enablePack(keepOriginalMusic):
+    #print('| Installing', pack, '|')
     # Unlink all previous packs
     for path, _, files in os.walk(DGPath):
         for file in files:
             os.unlink(path + '\\' + file)
-    
-    # Link pack files  
-    for path, _, files in os.walk('.\\'):
-        for file in files:
+    os.chdir("Music Packs\\")
+    for pack in packs:      
+        print(pack)
+        #Go to Audio section of pack
+        os.chdir(pack + '\\Audio')
+        
+        # Link pack files  
+        for path, _, files in os.walk('.\\'):
+        
+            for file in files:
+                print(file)
+                if not filesState[pack][packs[pack].index(file)]:
+                    continue
             
-            link = DGPath + path[1:] + '\\' + file
-            src = os.path.abspath(path + '\\' + file)
-            
-            os.symlink(src,link)
-
+                link = DGPath + path[1:] + '\\' + file
+                src = os.path.abspath(path + '\\' + file)
+                
+                os.symlink(src,link)
+        os.chdir('../../')
+    os.chdir('../')
     # Go to Audio section of original pack
-    os.chdir('..\\..\\DG Original\\Audio') 
+    #os.chdir('..\\..\\DG Original\\Audio') 
     
     # Link Original files
-    for path, _, files in os.walk('.\\'):
+    #for path, _, files in os.walk('.\\'):
         # Continue if user doesn't want to keep original music
-        if path == '.\\Music\\InGame' and not keepOriginalMusic:
-            continue
-
-        for file in files:
-            link = DGPath + path[1:] + '\\' + file
-            src = os.path.abspath(path + '\\' + file)
+     #   if path == '.\\Music\\InGame' and not keepOriginalMusic:
+          #  continue
+#
+     #   for file in files:
+      #      link = DGPath + path[1:] + '\\' + file
+      #      src = os.path.abspath(path + '\\' + file)
             
             # If link exists. It means that file already overrided by pack
-            # So continue
-            if os.path.isfile(link):
-                continue  
+      #      # So continue
+       #     if os.path.isfile(link):
+        #        continue  
             
-            os.symlink(src,link)
+        #    os.symlink(src,link)
             
     # Go to Root path
     os.chdir('../../../')
+    
+def drawPacksProp(pack):
+    print(_("|               Manager               |"))
+    for i, file in enumerate(packs[pack]):
+        print(str(i+1) + '.' + file, filesState[pack][i])
+    print(str( len(packs[pack]) + 1)  + '.' +' Exit')
+
+def packProperties(pack):
+    entry = -1
+    
+    drawPacksProp(pack)
+    
+    while entry != str(len(packs[pack]) + 1):
+        try:
+            entry = int(input('File: '))    
+        except ValueError:
+            continue
+        
+        if entry == len(packs[pack]) + 1 :
+            break
+        
+        filesState[pack][entry-1] = not filesState[pack][entry-1]
+        drawPacksProp(pack)
+        
 
 
 def displayPacks():
@@ -167,16 +205,21 @@ def displayPacks():
     while keepOriginal.upper() != yes and keepOriginal.upper() != no:
         keepOriginal = input(_('| Keep original music (Y/N): '))
     
-    if keepOriginal == 'Y':
+    if keepOriginal.upper() == yes:
         keepOriginalMusic == True
     
     os.system('cls')
     
-    enablePack(packs[entry-1], keepOriginalMusic)
+    
+    packProperties(list(packs.keys())[entry-1])
 
 
 # Function for scanning packs
 def scan():
+    global packs
+    # Delete previous packs
+    packs = {}
+
     if not os.path.isdir('Music Packs'):
         os.mkdir('Music Packs')
 
@@ -187,12 +230,18 @@ def scan():
         # If item is file skip it
         if os.path.isfile(pack):
             continue
-        try:
-            packs.index(pack)
-        # If new pack found
-        except ValueError:
-            packs.append(pack)
-            print(_("| Found "), pack)
+        
+        # Find all files in pack
+        packs[pack] = []
+        filesState[pack] = []
+        for _,_,files in os.walk(pack + '\\Audio'):
+            for file in files:
+                packs[pack].append(file)
+                filesState[pack].append(True)
+ 
+        print("| Found " +  pack)
+    
+    # Go to Root
     os.chdir('../')
 
 
@@ -200,20 +249,25 @@ def scan():
 def manager():
     while 1:
         entry = ""
-        print(_("|               Manager               |"))
-        print(_("| 1. Packs                            |"))
-        print(_('| 2. Rescan                           |'))
-        print(_('| 3. Exit to menu                     |'))
+        print(_("|                     Manager                     |"))
+        print(_("| 1. Install all Packs                            |"))
+        print(_("| 2. Packs                                        |"))
+        print(_('| 3. Rescan                                       |'))
+        print(_('| 4. Exit to menu                                 |'))
         
-        while (entry != '1' and entry != '2' and entry != '3'):
+        while (entry != '1' and entry != '2' and entry != '3' and entry != '4'):
             entry = input(_('| Choose entry: '))
         
-        if (entry == '1'):
-            displayPacks()
+        if entry == '1':
+            enablePack(False)
+        
         elif (entry == '2'):
+            displayPacks()
+        elif (entry == '3'):
             scan()      
         else:
             break
+            
         os.system('pause')
         os.system('cls')
 
@@ -237,11 +291,9 @@ def menu():
 
 print(_('| Scanning...'))
 scan()
-
 # Check if original pack exist
-try:
-    packs.index('DG Original')
-except ValueError:
+
+if not 'DG Original' in packs:
     print(_('| NTF original pack'))
     print(_('| Copying original sounds...'))
     
