@@ -5,7 +5,7 @@ Simple Manager of Sound Packs for Duck Game
 * Download latest [release](https://github.com/ryze312/Duck-Game-Music-Manager/releases)
 * Create a folder near DGMM.exe called Music Packs
 * Copy your Music Packs inside this folder
-* Install it via manager
+* Install it via manager (**RUN AS ADMIN!**)
 
 ## How to Create Packs
 1. Create file structure like this <br />
