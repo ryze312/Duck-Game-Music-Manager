@@ -15,7 +15,7 @@ Simple Manager of Sound Packs for Duck Game
 2. Place files inside:
    * **SFX** to change sound effects (.xnb)
    * **Music** to change misc music (.ogg)
-   * **InGame** to change music played in multiplayer (.ogg)
+   * **InGame** to change or add music played in multiplayer (.ogg)
 
 ## Misc music
 | File | When plays |
